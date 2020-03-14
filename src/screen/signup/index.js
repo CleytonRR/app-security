@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, Button, TextInput, StyleSheet, Image } from 'react-native'
+import { View, Text, Button, TextInput, StyleSheet, Image, TouchableOpacity } from 'react-native'
 
 export default function Signup() {
     return (
@@ -8,17 +8,19 @@ export default function Signup() {
                 <Image source={require('../../img/logoSec.png')} />
             </View>
             <View style={styles.form}>
-                <TextInput style={styles.input} placeholder='Nome' />
+                <TextInput style={styles.input} placeholderTextColor="#3C3CF0" placeholder='Nome' />
 
-                <TextInput style={styles.input} placeholder='Email' />
+                <TextInput style={styles.input} placeholderTextColor="#3C3CF0" placeholder='Email' />
 
-                <TextInput style={styles.input} placeholder='Senha' />
+                <TextInput style={styles.input} placeholderTextColor="#3C3CF0" secureTextEntry={true} placeholder='Senha' />
 
-                <TextInput style={styles.input} placeholder='CPF' />
+                <TextInput style={styles.input} placeholderTextColor="#3C3CF0" placeholder='CPF' />
 
-                <TextInput style={styles.input} placeholder='Idade' />
+                <TextInput style={styles.input} placeholderTextColor="#3C3CF0" placeholder='Idade' />
 
-                <Button title='Criar novo usuário' />
+                <TouchableOpacity style={styles.btn} onPress={()=>{}}>
+                    <Text style={styles.btnText}>Adicionar usuário</Text>
+                </TouchableOpacity>
             </View>
         </>
     );
@@ -43,5 +45,15 @@ const styles = StyleSheet.create({
         fontSize: 20,
         marginHorizontal: 5,
         marginBottom: 20
+    }, 
+    btn: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#329AF8',
+        height: 40,
+    }, 
+    btnText: {
+        fontSize: 20,
+        fontWeight: "bold",
     }
 })
