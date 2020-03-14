@@ -1,22 +1,40 @@
 import React, { useState } from 'react'
 import { View, Text, TextInput, StyleSheet, Image, TouchableOpacity } from 'react-native'
 import {TextInputMask} from 'react-native-masked-text'
+import api from '../../service/api'
 
 export default function Signup() {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [cpf, setCpf] = useState('')
-    const [idade, setIdade] = useState('')
+    const [age, setAge] = useState('')
+    const [master, setMaster] = useState(false)
+    const [load, setLoading] = useState(false)
 
-    function handleData() {
-        if(name === '' || email === '' || password === '' || cpf ==='' || idade === '') {
-            alert('Preencha todos os campos')
+    async function handleData() {
+        if(name === '' || email === '' || password === '' || cpf ==='' || age === '') {
+            return alert('Preencha todos os campos')
         }
+        setLoading(true)
+        
+        try {
+            await api.post('/user', {name, email, password, cpf, age, master})
+            alert('Salvo com sucesso')
+            setLoading(false)
+        } catch (error) {
+            console.log(error.response.data)
+            alert('Deu erro')
+            setLoading(false)
+        }
+
     }
 
     return (
         <>
+        {load &&
+        <Text style={styles.load}>Carregando...</Text>
+        }
             <View style={styles.boxImage}>
                 <Image source={require('../../img/logoSec.png')} />
             </View>
@@ -61,8 +79,8 @@ export default function Signup() {
                 placeholderTextColor="#3C3CF0" 
                 placeholder='Idade'
                 keyboardType='numeric' 
-                value={idade}
-                onChangeText={idade => setIdade(idade)}
+                value={age}
+                onChangeText={age => setAge(age)}
                 />
 
                 <TouchableOpacity style={styles.btn} onPress={handleData}>
@@ -84,6 +102,10 @@ const styles = StyleSheet.create({
     form: {
         flex: 2,
         width: '90%'
+    },
+
+    load: {
+        marginTop: 50
     },
 
     input: {
