@@ -1,5 +1,4 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 
@@ -39,19 +38,3 @@ export default function App() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#CCCCCC',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
-  box: {
-    height: 300,
-    width: 300,
-    borderWidth: 1,
-    backgroundColor: 'black',
-
-  }
-});
