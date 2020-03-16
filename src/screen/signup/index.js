@@ -101,7 +101,8 @@ const styles = StyleSheet.create({
 
     form: {
         flex: 2,
-        width: '90%'
+        width: '100%',
+        paddingHorizontal: 20
     },
 
     load: {
@@ -116,13 +117,16 @@ const styles = StyleSheet.create({
         marginBottom: 20
     },
     btn: {
-        justifyContent: 'center',
+        borderWidth: 1,
+        width: '100%',
+        backgroundColor: '#642db9',
         alignItems: 'center',
-        backgroundColor: '#329AF8',
-        height: 40,
+        justifyContent: 'center',
+        height: 35,
+        borderRadius: 10
     },
     btnText: {
         fontSize: 20,
-        fontWeight: "bold",
+        color: '#fff'
     }
 })
