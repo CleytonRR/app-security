@@ -11,9 +11,29 @@ const Stack = createStackNavigator()
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='signin'>
-        <Stack.Screen name='signin' component={Signin} />
-        <Stack.Screen name='signup' component={Signup} />
+      <Stack.Navigator 
+      initialRouteName='signin'
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: '#2b62d9' 
+        },
+        headerTintColor: '#fff'
+      }}
+      >
+        <Stack.Screen 
+        name='signin' 
+        component={Signin} 
+        options={{
+          title: 'Logar'
+        }}
+        />
+        <Stack.Screen 
+        name='signup' 
+        component={Signup}
+        options={{
+          title: 'Cadastrar novo usuário'
+        }} 
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
