@@ -1,6 +1,6 @@
 import React from 'react';
 import { SafeAreaView, View, FlatList, StyleSheet, Text, TouchableOpacity } from 'react-native';
-import {Ionicons, } from '@expo/vector-icons'
+import { Ionicons, } from '@expo/vector-icons'
 
 const DATA = [
     {
@@ -55,14 +55,14 @@ function Item({ item }) {
             <Text style={styles.title}>{item.title}</Text>
             <Text style={styles.description}>{item.description}</Text>
             <Text styles={styles.status}>status: {
-            item.status ?   <Ionicons name="md-checkmark-circle" size={28} color={'green'} />  : 
-            <Ionicons name="md-clock" size={28} color="blue" />}
+                item.status ? <Ionicons name="md-checkmark-circle" size={28} color={'green'} /> :
+                    <Ionicons name="md-clock" size={28} color="blue" />}
             </Text>
         </View>
     );
 }
 
-export default function Home() {
+export default function Home({ navigation }) {
     return (
         <SafeAreaView style={styles.container}>
             <FlatList
@@ -70,8 +70,8 @@ export default function Home() {
                 renderItem={({ item }) => <Item item={item} />}
                 keyExtractor={item => item.id}
             />
-            <TouchableOpacity style={styles.btn} onPress={()=>{}}>
-                <Ionicons name="md-add-circle" size={50} color='#642db9'  />
+            <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('newCall')}>
+                <Ionicons name="md-add-circle" size={50} color='#642db9' />
             </TouchableOpacity>
         </SafeAreaView>
     );

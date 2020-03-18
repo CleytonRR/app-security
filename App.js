@@ -5,49 +5,59 @@ import { createStackNavigator } from '@react-navigation/stack'
 import Signup from './src/screen/signup/index'
 import Signin from './src/screen/singin/index'
 import Home from './src/screen/home/index'
+import CreateCall from './src/screen/createCall/index'
 
 const Stack = createStackNavigator()
 
 export default function App() {
   const [login, setLogin] = useState(1)
-  
+
   return (
     <NavigationContainer>
-      <Stack.Navigator 
-      screenOptions={{
-        headerStyle: {
-          backgroundColor: '#2b62d9' 
-        },
-        headerTintColor: '#fff'
-      }}
+      <Stack.Navigator
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: '#2b62d9'
+          },
+          headerTintColor: '#fff'
+        }}
       >
         {login == null ? (
           <>
-          <Stack.Screen 
-          name='signin' 
-          component={Signin} 
-          options={{
-            title: 'Logar'
-          }}
-          />
-          <Stack.Screen 
-          name='signup' 
-          component={Signup}
-          options={{
-            title: 'Cadastrar novo usuário'
-          }}
-          />
+            <Stack.Screen
+              name='signin'
+              component={Signin}
+              options={{
+                title: 'Logar'
+              }}
+            />
+            <Stack.Screen
+              name='signup'
+              component={Signup}
+              options={{
+                title: 'Cadastrar novo usuário'
+              }}
+            />
           </>
-        ): (
-          <Stack.Screen
-          name='home'
-          component={Home}
-          options={{
-            title: 'Chamadas realizadas'
-          }}
-          />
-        ) 
-      }
+        ) : (
+            <>
+              <Stack.Screen
+                name='home'
+                component={Home}
+                options={{
+                  title: 'Chamadas realizadas'
+                }}
+              />
+              <Stack.Screen
+                name='newCall'
+                component={CreateCall}
+                options={{
+                  title: 'Criar nova chamada'
+                }}
+              />
+            </>
+          )
+        }
       </Stack.Navigator>
     </NavigationContainer>
   );
