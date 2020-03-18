@@ -10,6 +10,7 @@ const Stack = createStackNavigator()
 
 export default function App() {
   const [login, setLogin] = useState(1)
+  
   return (
     <NavigationContainer>
       <Stack.Navigator 
