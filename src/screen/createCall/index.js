@@ -1,13 +1,29 @@
 import React, { useEffect, useState } from 'react'
 import { View, TextInput, TouchableOpacity, StyleSheet, Text, Image } from 'react-native'
+import {requestPermissionsAsync, getCurrentPositionAsync} from 'expo-location'
 
 export default function CreateCall({ navigation }) {
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
+    const [currentRegion, setCurrentRegion] = useState(null)
 
     useEffect(() => {
+        async function loadPosition() {
+            const { granted } = await requestPermissionsAsync() 
+            if(granted) {
+                const { coords } = await getCurrentPositionAsync({
+                    enableHighAccuracy: true
+                })
 
-    })
+                const {latitude, longitude} = coords
+                setCurrentRegion({
+                    latitude,
+                    longitude,
+                })
+            }
+        }
+        loadPosition()
+    }, [])
 
     async function createCall() {
         alert('Criei')
