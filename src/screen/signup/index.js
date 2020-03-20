@@ -62,8 +62,9 @@ export default function Signup() {
                 secureTextEntry={true} 
                 placeholder='Senha'
                 value={password}
-                onChangeText={password => setPassword(password)} 
+                onChangeText={password => setPassword(password)}
                 />
+                <Text style={styles.txtSmall}>A senha deve ter no mínimo 8 caracteres, uma letra maiscula, um número e um caracter especial</Text>
                 
                 <TextInputMask 
                 style={styles.input}
@@ -114,8 +115,14 @@ const styles = StyleSheet.create({
         height: 50,
         fontSize: 20,
         marginHorizontal: 5,
-        marginBottom: 20
+        marginBottom: 10
     },
+
+    txtSmall: {
+        fontSize: 12,
+        fontWeight: 'bold',
+    },
+
     btn: {
         borderWidth: 1,
         width: '100%',
