@@ -17,12 +17,8 @@ export default function SignUp({ navigation }) {
             })
             await AsyncStorage.setItem('token', response.data.token)
             const master = response.data.master
-            console.log(master)
-            alert('Estou aqui')
             if(master) {
-                console.log('Master é de verdade')
                 await AsyncStorage.setItem('id', '1')
-                console.log('Cheguei aqui embaixo')
             } else {
                 await AsyncStorage.setItem('id', '0')
             }

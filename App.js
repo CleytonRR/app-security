@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import {AsyncStorage} from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 
@@ -12,7 +13,26 @@ import FinishCall from './src/screen/finishCall/index'
 const Stack = createStackNavigator()
 
 export default function App() {
-  const [login, setLogin] = useState(1)
+  const [login, setLogin] = useState(null)
+
+  useEffect(() => {
+    async function loadToken() {
+      try {
+        var id = await AsyncStorage.getItem('id')
+        if(parseInt(id) === 1) {
+          return setLogin(1)
+        }
+
+        if(parseInt(id) === 0) {
+          return setLogin(0)
+        }
+      } catch (error) {
+        alert('Erro intenro')
+      }
+    }
+
+    loadToken()
+  }, [])
 
   if (login === 1) {
     return (

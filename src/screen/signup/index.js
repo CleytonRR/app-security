@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, Text, TextInput, StyleSheet, Image, TouchableOpacity } from 'react-native'
+import { View, Text, TextInput, StyleSheet, Image, TouchableOpacity, AsyncStorage } from 'react-native'
 import {TextInputMask} from 'react-native-masked-text'
 import api from '../../service/api'
 
@@ -11,8 +11,12 @@ export default function Signup() {
     const [age, setAge] = useState('')
     const [master, setMaster] = useState(false)
     const [load, setLoading] = useState(false)
+    const [error, setError] = useState(null)
 
     async function handleData() {
+        if(error !== null) {
+            setError(null)
+        }
         if(name === '' || email === '' || password === '' || cpf ==='' || age === '') {
             return alert('Preencha todos os campos')
         }
@@ -20,12 +24,21 @@ export default function Signup() {
         
         try {
             await api.post('/user', {name, email, password, cpf, age, master})
-            alert('Salvo com sucesso')
+            alert('Cadastro feito com sucesso')
+            const response = await api.post('/login', {
+                email,
+                password
+            })
+            console.log(response.data)
+            await AsyncStorage.setItem('token', response.data.token)
+            await AsyncStorage.setItem('id', '0')
             setLoading(false)
         } catch (error) {
-            console.log(error.response.data)
+            console.log(error.response.data.message)
+            console.log(error.response)
             alert('Deu erro')
             setLoading(false)
+            setError(error.response.data.message)
         }
 
     }
@@ -37,6 +50,7 @@ export default function Signup() {
         }
             <View style={styles.boxImage}>
                 <Image source={require('../../img/logoSec.png')} />
+                {error !== null ? <Text style={styles.textError}>{error}</Text> : null}
             </View>
             <View style={styles.form}>
                 <TextInput 
@@ -135,5 +149,13 @@ const styles = StyleSheet.create({
     btnText: {
         fontSize: 20,
         color: '#fff'
+    },
+
+    textError: {
+        fontSize: 18,
+        color: '#FF00FF',
+        fontWeight: 'bold',
+        marginBottom: 10,
+        marginHorizontal: 5
     }
 })
