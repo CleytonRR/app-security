@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, AsyncStorage } from 'react-native'
 import api from '../../service/api'
 
 export default function SignUp({ navigation }) {
@@ -15,12 +15,24 @@ export default function SignUp({ navigation }) {
                 email,
                 password
             })
+            await AsyncStorage.setItem('token', response.data.token)
+            const master = response.data.master
+            console.log(master)
+            alert('Estou aqui')
+            if(master) {
+                console.log('Master é de verdade')
+                await AsyncStorage.setItem('id', '1')
+                console.log('Cheguei aqui embaixo')
+            } else {
+                await AsyncStorage.setItem('id', '0')
+            }
             alert('Success')
-            console.log(response.data.token)
         } catch (error) {
+            alert('Deu algum erro')
             if(error.response) {
-                alert('Errro')
-                console.log(error.response.status)
+                if(error.response.status === 401) {
+                    alert('Email ou senha invalidos')
+                }
             }
         }
     }
