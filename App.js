@@ -6,11 +6,45 @@ import Signup from './src/screen/signup/index'
 import Signin from './src/screen/singin/index'
 import Home from './src/screen/home/index'
 import CreateCall from './src/screen/createCall/index'
+import MapCalls from './src/screen/mapCalls'
+import FinishCall from './src/screen/finishCall/index'
 
 const Stack = createStackNavigator()
 
 export default function App() {
   const [login, setLogin] = useState(1)
+
+  if (login === 1) {
+    return (
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{
+            headerStyle: {
+              backgroundColor: '#2b62d9'
+            },
+            headerTintColor: '#fff'
+          }}
+        >
+          <>
+            <Stack.Screen
+              name='mapsCall'
+              component={MapCalls}
+              options={{
+                title: 'Chamadas em aberto'
+              }}
+            />
+            <Stack.Screen
+              name='finishCall'
+              component={FinishCall}
+              options={{
+                title: 'Encerrar chamada'
+              }}
+            />
+          </>
+        </Stack.Navigator>
+      </NavigationContainer>
+    )
+  }
 
   return (
     <NavigationContainer>
@@ -22,6 +56,7 @@ export default function App() {
           headerTintColor: '#fff'
         }}
       >
+
         {login == null ? (
           <>
             <Stack.Screen
@@ -45,11 +80,11 @@ export default function App() {
                 name='home'
                 component={Home}
                 options={{
-                  title: 'Chamadas realizadas'
+                  title: 'Suas chamadas'
                 }}
               />
               <Stack.Screen
-                name='newCall'
+                name='finishCall'
                 component={CreateCall}
                 options={{
                   title: 'Criar nova chamada'
