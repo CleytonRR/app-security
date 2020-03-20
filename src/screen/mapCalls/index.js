@@ -4,7 +4,7 @@ import MapView, { Marker, Callout } from 'react-native-maps'
 import { requestPermissionsAsync, getCurrentPositionAsync } from 'expo-location'
 import { FontAwesome } from '@expo/vector-icons'
 
-export default function MapCalls() {
+export default function MapCalls({navigation}) {
     const [currentRegion, setCurrentRegion] = useState(null)
 
     useEffect(() => {
@@ -37,7 +37,13 @@ export default function MapCalls() {
         <MapView initialRegion={currentRegion} style={styles.map}>
             <Marker coordinate={{ latitude: -3.4634184, longitude: -41.5550501 }}>
                 <FontAwesome name='eye' size={32} color='red' />
-                <Callout>
+                <Callout 
+                onPress={() => navigation.navigate('finishCall', {
+                id: 1, 
+                name: 'Cleyton Rodrigues Furtado', 
+                title: 'Estou sendo atacado', 
+                description: 'Tem bandidos na minha casa'}) }>
+                    
                     <View style={styles.callout}>
                         <Text style={styles.name}>Cleyton Rodridues Furtado</Text>
                         <Text style={styles.title}>Estou sendo atacada</Text>
