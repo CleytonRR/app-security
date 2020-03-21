@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {AsyncStorage} from 'react-native'
+import { AsyncStorage } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 
@@ -19,11 +19,11 @@ export default function App() {
     async function loadToken() {
       try {
         var id = await AsyncStorage.getItem('id')
-        if(parseInt(id) === 1) {
+        if (parseInt(id) === 1) {
           return setLogin(1)
         }
 
-        if(parseInt(id) === 0) {
+        if (parseInt(id) === 0) {
           return setLogin(0)
         }
       } catch (error) {
@@ -81,11 +81,13 @@ export default function App() {
           <>
             <Stack.Screen
               name='signin'
-              component={Signin}
               options={{
                 title: 'Logar'
               }}
-            />
+            >
+              {props => <Signin {...props} setId={setLogin}
+              />}
+            </Stack.Screen>
             <Stack.Screen
               name='signup'
               component={Signup}

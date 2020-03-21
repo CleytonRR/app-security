@@ -2,12 +2,13 @@ import React, { useState } from 'react'
 import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, AsyncStorage } from 'react-native'
 import api from '../../service/api'
 
-export default function SignUp({ navigation }) {
+export default function SignUp({ setId, navigation }) {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
     async function handleDatas() {
         if(email === '' || password === '') {
+            console.log(nomeUser)
             return alert('Preencha todos os campos')
         }
         try {
@@ -19,11 +20,14 @@ export default function SignUp({ navigation }) {
             const master = response.data.master
             if(master) {
                 await AsyncStorage.setItem('id', '1')
+                setId(1)
             } else {
                 await AsyncStorage.setItem('id', '0')
+                setId(0)
             }
             alert('Success')
         } catch (error) {
+            console.log(error)
             alert('Deu algum erro')
             if(error.response) {
                 if(error.response.status === 401) {
