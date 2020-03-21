@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { View, TextInput, TouchableOpacity, StyleSheet, Text, Image } from 'react-native'
 import {requestPermissionsAsync, getCurrentPositionAsync} from 'expo-location'
+import api from '../../service/api'
+
+var token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImVtYWlsIjoidXNlclNpbXBsZUBnbWFpbC5jb20iLCJpYXQiOjE1ODQ4MjQzNzIsImV4cCI6MTU4NDgyNzk3Mn0.HMWRdHPfVWM1oYwJE6N7EUPv0bVsEZQTYyg7ChCCW6I'
+
 
 export default function CreateCall({ navigation }) {
     const [title, setTitle] = useState('')
@@ -26,8 +30,24 @@ export default function CreateCall({ navigation }) {
     }, [])
 
     async function createCall() {
+        if(description === '' || title === '') {
+            return alert('Preencha todos os campos')
+        }
+        try {
+            await api.post('/newcall', {
+                title,
+                description,
+                status: true,
+                latitude: currentRegion.latitude,
+                longitude: currentRegion.longitude
+            }, {
+                headers: {Authorization: "Bearer " + token}
+            })
+            navigation.goBack()
+        } catch (error) {
+            alert('deu ruim')
+        }
         alert('Criei')
-        navigation.goBack()
     }
 
     return (
