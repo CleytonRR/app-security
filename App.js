@@ -106,7 +106,7 @@ export default function App() {
                 }}
               />
               <Stack.Screen
-                name='finishCall'
+                name='newCall'
                 component={CreateCall}
                 options={{
                   title: 'Criar nova chamada'
