@@ -1,53 +1,9 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { SafeAreaView, View, FlatList, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { Ionicons, } from '@expo/vector-icons'
+import api from '../../service/api'
 
-const DATA = [
-    {
-        id: '1',
-        title: 'Bandido na minha casa',
-        description: 'Entrou um bandido agora na minha casa e ele ta quebrando tudo, venham logo!!!',
-        status: true
-    },
-    {
-        id: '2',
-        title: 'Second Item',
-        description: 'Ataque de urso',
-        status: false
-    },
-    {
-        id: '3',
-        title: 'Third',
-        description: 'Ataque de tudo',
-        status: false
-    },
-
-    {
-        id: '4',
-        title: 'Third',
-        description: 'Ataque de tudo',
-        status: false
-    },
-
-    {
-        id: '5',
-        title: 'Third',
-        description: 'Ataque de tudo',
-        status: false
-    },
-    {
-        id: '6',
-        title: 'Third',
-        description: 'Ataque de tudo',
-        status: false
-    },
-    {
-        id: '7',
-        title: 'Third',
-        description: 'Ataque de tudo',
-        status: false
-    },
-];
+var token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImVtYWlsIjoidXNlclNpbXBsZUBnbWFpbC5jb20iLCJpYXQiOjE1ODQ4MjQzNzIsImV4cCI6MTU4NDgyNzk3Mn0.HMWRdHPfVWM1oYwJE6N7EUPv0bVsEZQTYyg7ChCCW6I'
 
 function Item({ item }) {
     return (
@@ -55,38 +11,72 @@ function Item({ item }) {
             <Text style={styles.title}>{item.title}</Text>
             <Text style={styles.description}>{item.description}</Text>
             <Text styles={styles.status}>status: {
-                item.status ? <Ionicons name="md-checkmark-circle" size={28} color={'green'} /> :
-                    <Ionicons name="md-clock" size={28} color="blue" />}
+                item.status ? <Ionicons name="md-clock" size={28} color='blue' /> :
+                    <Ionicons name="md-checkmark-circle" size={28} color="green" />}
             </Text>
         </View>
     );
 }
 
 export default function Home({ navigation }) {
+    const [data, setDate] = useState(null)
+
+    useEffect(() => {
+        const load = navigation.addListener('focus', async () => {
+            try {
+                const response = await api.get('/calls', {
+                    headers: {Authorization: "Bearer " + token}
+                })
+                setDate(response.data)
+            } catch (error) {
+                alert('Deu algum erro')
+            }
+        }
+    )
+    return load
+    }, [navigation])
     return (
+        <>
         <SafeAreaView style={styles.container}>
+
+        {data == null ? (
+            <Text style={styles.textNotFound}>Nenhuma ocorrência. Para adicionar toque no botão abaixo</Text>
+        ) : (
+            <>
             <FlatList
-                data={DATA}
-                renderItem={({ item }) => <Item item={item} />}
-                keyExtractor={item => item.id}
+            data={data}
+            renderItem={({ item }) => <Item item={item} />}
+            keyExtractor={item => item.id}
+            style={styles.lista}
             />
+             </>
+        )}
             <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('newCall')}>
                 <Ionicons name="md-add-circle" size={50} color='#642db9' />
-            </TouchableOpacity>
+             </TouchableOpacity>
         </SafeAreaView>
-    );
+        </>
+    )
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
+
     item: {
         padding: 20,
         marginHorizontal: 16,
         borderBottomWidth: 1,
         borderColor: '#642BD9'
     },
+
+    textNotFound: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#0e0e0e'
+    },
+
     title: {
         fontSize: 32,
     },
@@ -97,10 +87,9 @@ const styles = StyleSheet.create({
 
     btn: {
         height: 40,
-        borderRadius: 20,
         justifyContent: 'center',
         alignItems: 'flex-end',
         paddingHorizontal: 30,
-        marginBottom: 10
+        marginBottom: 10,
     }
 });
