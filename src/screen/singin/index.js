@@ -25,10 +25,7 @@ export default function SignUp({ setId, navigation }) {
                 await AsyncStorage.setItem('id', '0')
                 setId(0)
             }
-            alert('Success')
         } catch (error) {
-            console.log(error)
-            alert('Deu algum erro')
             if(error.response) {
                 if(error.response.status === 401) {
                     alert('Email ou senha invalidos')
