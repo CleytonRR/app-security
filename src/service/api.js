@@ -20,8 +20,7 @@ api.interceptors.response.use(
             error.request._response.includes('connect')
         ) {
             alert(
-                'Aviso',
-                'Não foi possível conectar aos nossos servidores, sem conexão com a internet',
+                'Não foi possível conectar aos nossos servidores, sem conexão com a internet.',
                 [{ text: 'OK' }],
                 { cancelable: false },
             )

@@ -35,7 +35,10 @@ export default function Signup({setId}) {
             setId(0)
         } catch (error) {
             setLoading(false)
-            setError(error.response.data.message)
+            if(error.response === undefined) {
+                return setError('Erro interno')
+            }
+            return setError(error.response.data.message)
         }
 
     }
