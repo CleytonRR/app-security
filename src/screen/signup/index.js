@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { View, Text, TextInput, StyleSheet, Image, TouchableOpacity, AsyncStorage } from 'react-native'
-import {TextInputMask} from 'react-native-masked-text'
+import { TextInputMask } from 'react-native-masked-text'
 import api from '../../service/api'
+import { addToken, addId } from '../../util/storage'
 
-export default function Signup() {
+export default function Signup({setId}) {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -14,29 +15,25 @@ export default function Signup() {
     const [error, setError] = useState(null)
 
     async function handleData() {
-        if(error !== null) {
+        if (error !== null) {
             setError(null)
         }
-        if(name === '' || email === '' || password === '' || cpf ==='' || age === '') {
+        if (name === '' || email === '' || password === '' || cpf === '' || age === '') {
             return alert('Preencha todos os campos')
         }
         setLoading(true)
-        
+
         try {
-            await api.post('/user', {name, email, password, cpf, age, master})
-            alert('Cadastro feito com sucesso')
+            await api.post('/user', { name, email, password, cpf, age, master })
             const response = await api.post('/login', {
                 email,
                 password
             })
-            console.log(response.data)
-            await AsyncStorage.setItem('token', response.data.token)
-            await AsyncStorage.setItem('id', '0')
+            await addToken(response.data.token)
+            await addId('0')
             setLoading(false)
+            setId(0)
         } catch (error) {
-            console.log(error.response.data.message)
-            console.log(error.response)
-            alert('Deu erro')
             setLoading(false)
             setError(error.response.data.message)
         }
@@ -45,57 +42,57 @@ export default function Signup() {
 
     return (
         <>
-        {load &&
-        <Text style={styles.load}>Carregando...</Text>
-        }
+            {load &&
+                <Text style={styles.load}>Carregando...</Text>
+            }
             <View style={styles.boxImage}>
                 <Image source={require('../../img/logoSec.png')} />
                 {error !== null ? <Text style={styles.textError}>{error}</Text> : null}
             </View>
             <View style={styles.form}>
-                <TextInput 
-                style={styles.input} 
-                placeholderTextColor="#3C3CF0" 
-                placeholder='Nome' 
-                value={name}
-                onChangeText={name => setName(name)}
+                <TextInput
+                    style={styles.input}
+                    placeholderTextColor="#3C3CF0"
+                    placeholder='Nome'
+                    value={name}
+                    onChangeText={name => setName(name)}
                 />
 
-                <TextInput 
-                style={styles.input} 
-                placeholderTextColor="#3C3CF0" 
-                keyboardType='email-address'
-                placeholder='Email'
-                value={email}
-                onChangeText={email => setEmail(email)} 
+                <TextInput
+                    style={styles.input}
+                    placeholderTextColor="#3C3CF0"
+                    keyboardType='email-address'
+                    placeholder='Email'
+                    value={email}
+                    onChangeText={email => setEmail(email)}
                 />
 
-                <TextInput 
-                style={styles.input} 
-                placeholderTextColor="#3C3CF0" 
-                secureTextEntry={true} 
-                placeholder='Senha'
-                value={password}
-                onChangeText={password => setPassword(password)}
+                <TextInput
+                    style={styles.input}
+                    placeholderTextColor="#3C3CF0"
+                    secureTextEntry={true}
+                    placeholder='Senha'
+                    value={password}
+                    onChangeText={password => setPassword(password)}
                 />
                 <Text style={styles.txtSmall}>A senha deve ter no mínimo 8 caracteres, uma letra maiscula, um número e um caracter especial</Text>
-                
-                <TextInputMask 
-                style={styles.input}
-                placeholder='CPF'
-                placeholderTextColor="#3C3CF0"
-                type={'cpf'}
-                value={cpf}
-                onChangeText={cpf => setCpf(cpf)}
+
+                <TextInputMask
+                    style={styles.input}
+                    placeholder='CPF'
+                    placeholderTextColor="#3C3CF0"
+                    type={'cpf'}
+                    value={cpf}
+                    onChangeText={cpf => setCpf(cpf)}
                 />
 
-                <TextInput 
-                style={styles.input} 
-                placeholderTextColor="#3C3CF0" 
-                placeholder='Idade'
-                keyboardType='numeric' 
-                value={age}
-                onChangeText={age => setAge(age)}
+                <TextInput
+                    style={styles.input}
+                    placeholderTextColor="#3C3CF0"
+                    placeholder='Idade'
+                    keyboardType='numeric'
+                    value={age}
+                    onChangeText={age => setAge(age)}
                 />
 
                 <TouchableOpacity style={styles.btn} onPress={handleData}>

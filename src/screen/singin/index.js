@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, AsyncStorage } from 'react-native'
 import api from '../../service/api'
+import {addId, addToken} from '../../util/storage'
 
 export default function SignUp({ setId, navigation }) {
     const [email, setEmail] = useState('')
@@ -8,7 +9,6 @@ export default function SignUp({ setId, navigation }) {
 
     async function handleDatas() {
         if(email === '' || password === '') {
-            console.log(nomeUser)
             return alert('Preencha todos os campos')
         }
         try {
@@ -16,13 +16,13 @@ export default function SignUp({ setId, navigation }) {
                 email,
                 password
             })
-            await AsyncStorage.setItem('token', response.data.token)
+            await addToken(response.data.token)
             const master = response.data.master
             if(master) {
-                await AsyncStorage.setItem('id', '1')
+                await addId('1')
                 setId(1)
             } else {
-                await AsyncStorage.setItem('id', '0')
+                await addId('0')
                 setId(0)
             }
         } catch (error) {

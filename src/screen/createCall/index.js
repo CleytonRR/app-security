@@ -2,17 +2,17 @@ import React, { useEffect, useState } from 'react'
 import { View, TextInput, TouchableOpacity, StyleSheet, Text, Image } from 'react-native'
 import {requestPermissionsAsync, getCurrentPositionAsync} from 'expo-location'
 import api from '../../service/api'
-
-var token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImVtYWlsIjoidXNlclNpbXBsZUBnbWFpbC5jb20iLCJpYXQiOjE1ODQ4MjQzNzIsImV4cCI6MTU4NDgyNzk3Mn0.HMWRdHPfVWM1oYwJE6N7EUPv0bVsEZQTYyg7ChCCW6I'
-
+import {getToken, deleteToken, deleteId} from '../../util/storage'
 
 export default function CreateCall({ navigation }) {
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
     const [currentRegion, setCurrentRegion] = useState(null)
+    const [token, setToken] = useState(null)
 
     useEffect(() => {
         async function loadPosition() {
+            const token = getToken()
             const { granted } = await requestPermissionsAsync() 
             if(granted) {
                 const { coords } = await getCurrentPositionAsync({
@@ -25,6 +25,7 @@ export default function CreateCall({ navigation }) {
                     longitude,
                 })
             }
+            setToken(token)
         }
         loadPosition()
     }, [])
@@ -45,9 +46,8 @@ export default function CreateCall({ navigation }) {
             })
             navigation.goBack()
         } catch (error) {
-            alert('deu ruim')
+            alert('Erro ao criar chamado')
         }
-        alert('Criei')
     }
 
     return (

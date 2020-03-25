@@ -3,7 +3,8 @@ import { SafeAreaView, View, FlatList, StyleSheet, Text, TouchableOpacity } from
 import { Ionicons, } from '@expo/vector-icons'
 import api from '../../service/api'
 
-var token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImVtYWlsIjoidXNlclNpbXBsZUBnbWFpbC5jb20iLCJpYXQiOjE1ODQ4MjQzNzIsImV4cCI6MTU4NDgyNzk3Mn0.HMWRdHPfVWM1oYwJE6N7EUPv0bVsEZQTYyg7ChCCW6I'
+import {deleteId, deleteToken} from '../../util/storage'
+
 
 function Item({ item }) {
     return (
@@ -18,18 +19,22 @@ function Item({ item }) {
     );
 }
 
-export default function Home({ navigation }) {
+export default function Home({setId, navigation }) {
     const [data, setDate] = useState(null)
 
     useEffect(() => {
         const load = navigation.addListener('focus', async () => {
             try {
-                const response = await api.get('/calls', {
-                    headers: {Authorization: "Bearer " + token}
-                })
+                const response = await api.get('/calls')
                 setDate(response.data)
             } catch (error) {
-                alert('Deu algum erro')
+                if(error.response) {
+                    if(error.response.status === 401) {
+                        await deleteId()
+                        await deleteToken()
+                        setId(null)
+                    }
+                }
             }
         }
     )
@@ -39,7 +44,7 @@ export default function Home({ navigation }) {
         <>
         <SafeAreaView style={styles.container}>
 
-        {data == null ? (
+        {data == null || data.length === 0 ? (
             <Text style={styles.textNotFound}>Nenhuma ocorrência. Para adicionar toque no botão abaixo</Text>
         ) : (
             <>

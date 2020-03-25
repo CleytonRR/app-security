@@ -1,11 +1,23 @@
 import React from 'react'
 import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native'
+import api from '../../service/api'
 
 export default function FinishCall({ route, navigation }) {
-    const { id, name, title, description } = route.params
+    var token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZW1haWwiOiJtYXN0ZXJQb2xpY3lAZ21haWwuY29tIiwiaWF0IjoxNTg1MDU3NjM5LCJleHAiOjE1ODUwNjEyMzl9.UZZlJCMooHC3fSbolpHnGBBYPrdf7QPtSSRzcO7cxf4'
+
+    const { id, title, description } = route.params
 
     async function finish() {
-        alert('Parabéns, mais uma chamada finalizada')
+        try {
+            const response = await api.put('/changecall', {id}, {
+                headers: { Authorization: "Bearer " + token }
+            })
+            console.log(response)
+            alert('Parabéns, mais uma chamada finalizada')
+        } catch (error) {
+            console.log(error)
+            alert('Deu algum error')
+        }
         navigation.goBack()
     }
     return (
@@ -15,7 +27,6 @@ export default function FinishCall({ route, navigation }) {
             </View>
             <View style={styles.container}>
 
-                <Text style={[styles.text, styles.name]}>{name}</Text>
                 <Text style={[styles.text, styles.title]}>{title}</Text>
                 <Text style={[styles.text, styles.description]}>{description}</Text>
                 <TouchableOpacity style={styles.btn} onPress={finish}>
@@ -41,11 +52,6 @@ const styles = StyleSheet.create({
     text: {
         color: '#3C3CF0',
         textAlign: 'center'
-    },
-
-    name: {
-        fontSize: 25,
-        fontWeight: 'bold'
     },
 
     title: {

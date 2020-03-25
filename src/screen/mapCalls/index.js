@@ -5,9 +5,9 @@ import { requestPermissionsAsync, getCurrentPositionAsync } from 'expo-location'
 import { FontAwesome } from '@expo/vector-icons'
 
 import api from '../../service/api'
+import { getToken, deleteId, deleteToken } from '../../util/storage'
 
-export default function MapCalls({ navigation }) {
-    var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZW1haWwiOiJtYXN0ZXJQb2xpY3lAZ21haWwuY29tIiwiaWF0IjoxNTg1MDE0Mzg3LCJleHAiOjE1ODUwMTc5ODd9.tcOEx0kmyg0H-VyF9rJTpdflR39upz00dKjPGvR9fYU"
+export default function MapCalls({ setId, navigation }) {
 
     const [currentRegion, setCurrentRegion] = useState(null)
     const [calls, setCalls] = useState(null)
@@ -32,26 +32,37 @@ export default function MapCalls({ navigation }) {
 
     async function loadCalls() {
         try {
+            var token = await getToken()
             const response = await api.get('/calls', {
                 headers: { Authorization: "Bearer " + token }
             })
-            alert('tudo okay')
-            var teste = response.data[0]
-            console.log(teste.local.coordinates[0])
             setCalls(response.data)
         } catch (error) {
-            console.log(error)
-            alert('Deu algum error')
+            if (error.response.status === 401) {
+                await deleteId()
+                await deleteToken()
+                setId(null)
+            }
         }
     }
 
     useEffect(() => {
-        loadPosition()
-        loadCalls()
-    }, [])
+        const load = navigation.addListener('focus', async () => {
+            loadPosition()
+            loadCalls()
+        }
+        )
+        return load
+    }, [navigation])
 
     if (!currentRegion || !calls) {
         return null
+    }
+
+    if (calls.length === 0) {
+        return (
+            <Text style={styles.textNotFound}>Nenhuma chamada em aberto</Text>
+        )
     }
 
     return (
@@ -101,6 +112,12 @@ const styles = StyleSheet.create({
     name: {
         fontWeight: 'bold',
         fontSize: 16
+    },
+
+    textNotFound: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#0e0e0e'
     },
 
     title: {
