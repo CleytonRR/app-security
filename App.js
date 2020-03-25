@@ -8,13 +8,14 @@ import Home from './src/screen/home/index'
 import CreateCall from './src/screen/createCall/index'
 import MapCalls from './src/screen/mapCalls'
 import FinishCall from './src/screen/finishCall/index'
+import Loading from './src/screen/loadPage/index'
 
 import {getId} from './src/util/storage'
 
 const Stack = createStackNavigator()
 
 export default function App() {
-  const [login, setLogin] = useState(null)
+  const [login, setLogin] = useState('')
 
   useEffect(() => {
     async function loadToken() {
@@ -27,6 +28,8 @@ export default function App() {
         if (parseInt(id) === 0) {
           return setLogin(0)
         }
+
+        return setLogin(null)
       } catch (error) {
         alert('Erro intenro')
       }
@@ -34,6 +37,10 @@ export default function App() {
 
     loadToken()
   }, [])
+
+  if(login === '') {
+    return <Loading />
+  }
 
   if (login === 1) {
     return (
