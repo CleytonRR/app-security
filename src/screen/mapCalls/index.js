@@ -85,17 +85,6 @@ export default function MapCalls({ setId, navigation }) {
                     </Callout>
                 </Marker>
             ))}
-            {/* <Marker coordinate={{ latitude: -3.4634184, longitude: -41.5550501 }}>
-                <FontAwesome name='eye' size={32} color='red' />
-                <Callout 
-                onPress={() => navigation.navigate('finishCall', {
-                id: 1, 
-                name: 'Cleyton Rodrigues Furtado', 
-                title: 'Estou sendo atacado', 
-                description: 'Tem bandidos na minha casa'}) }>
-                    
-                </Callout>
-            </Marker> */}
         </MapView>
     )
 }
