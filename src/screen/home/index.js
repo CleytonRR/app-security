@@ -27,6 +27,7 @@ export default function Home({setId, navigation }) {
             try {
                 const response = await api.get('/calls')
                 setDate(response.data)
+                console.log(response.data)
             } catch (error) {
                 if(error.response) {
                     if(error.response.status === 401) {
@@ -51,7 +52,7 @@ export default function Home({setId, navigation }) {
             <FlatList
             data={data}
             renderItem={({ item }) => <Item item={item} />}
-            keyExtractor={item => item.id}
+            keyExtractor={item =>  item.id.toString()}
             style={styles.lista}
             />
              </>
