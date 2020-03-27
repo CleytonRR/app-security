@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
-import { View, Text, TextInput, StyleSheet, Image, TouchableOpacity, AsyncStorage } from 'react-native'
+import { View, Text, TextInput, StyleSheet, Image, TouchableOpacity } from 'react-native'
 import { TextInputMask } from 'react-native-masked-text'
 import api from '../../service/api'
+import Loading from '../loadPage/index'
+
 import { addToken, addId } from '../../util/storage'
 
 export default function Signup({setId}) {
@@ -42,12 +44,13 @@ export default function Signup({setId}) {
         }
 
     }
+    
+    if(load) {
+        return <Loading />
+    }
 
     return (
         <>
-            {load &&
-                <Text style={styles.load}>Carregando...</Text>
-            }
             <View style={styles.boxImage}>
                 <Image source={require('../../img/logoSec.png')} />
                 {error !== null ? <Text style={styles.textError}>{error}</Text> : null}

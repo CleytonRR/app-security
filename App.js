@@ -20,7 +20,7 @@ export default function App() {
   useEffect(() => {
     async function loadToken() {
       try {
-        var id = await getId
+        var id = await getId()
         if (parseInt(id) === 1) {
           return setLogin(1)
         }
