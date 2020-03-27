@@ -1,16 +1,19 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, AsyncStorage } from 'react-native'
+import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity } from 'react-native'
+import Loading from '../loadPage/index'
 import api from '../../service/api'
 import {addId, addToken} from '../../util/storage'
 
 export default function SignUp({ setId, navigation }) {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [load, setLoad] = useState(false)
 
     async function handleDatas() {
         if(email === '' || password === '') {
             return alert('Preencha todos os campos')
         }
+        setLoad(true)
         try {
             const response = await api.post('/login', {
                 email,
@@ -20,9 +23,11 @@ export default function SignUp({ setId, navigation }) {
             const master = response.data.master
             if(master) {
                 await addId('1')
+                setLoad(false)
                 setId(1)
             } else {
                 await addId('0')
+                setLoad(false)
                 setId(0)
             }
         } catch (error) {
@@ -32,6 +37,10 @@ export default function SignUp({ setId, navigation }) {
                 }
             }
         }
+    }
+
+    if(load) {
+        <Loading />
     }
 
     return (
