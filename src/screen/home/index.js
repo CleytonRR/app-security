@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { SafeAreaView, View, FlatList, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { Ionicons, } from '@expo/vector-icons'
+import Loading from '../loadPage/index'
 import api from '../../service/api'
 
 import {deleteId, deleteToken} from '../../util/storage'
@@ -27,7 +28,6 @@ export default function Home({setId, navigation }) {
             try {
                 const response = await api.get('/calls')
                 setDate(response.data)
-                console.log(response.data)
             } catch (error) {
                 if(error.response) {
                     if(error.response.status === 401) {
@@ -41,11 +41,16 @@ export default function Home({setId, navigation }) {
     )
     return load
     }, [navigation])
+
+    if(data === null) {
+        return <Loading />
+    }
+    
     return (
         <>
         <SafeAreaView style={styles.container}>
 
-        {data == null || data.length === 0 ? (
+        {data.length === 0 ? (
             <Text style={styles.textNotFound}>Nenhuma ocorrência. Para adicionar toque no botão abaixo</Text>
         ) : (
             <>
