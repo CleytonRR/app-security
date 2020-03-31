@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, Text, TextInput, StyleSheet, Image, TouchableOpacity } from 'react-native'
+import { View, Text, KeyboardAvoidingView, Platform, TextInput, StyleSheet, Image, TouchableOpacity } from 'react-native'
 import { TextInputMask } from 'react-native-masked-text'
 import api from '../../service/api'
 import Loading from '../loadPage/index'
@@ -50,7 +50,10 @@ export default function Signup({setId}) {
     }
 
     return (
-        <>
+        <KeyboardAvoidingView
+        behavior={Platform.OS == "ios" ? "padding" : "height"} 
+        style={styles.container}
+        >
             <View style={styles.boxImage}>
                 <Image source={require('../../img/logoSec.png')} />
                 {error !== null ? <Text style={styles.textError}>{error}</Text> : null}
@@ -81,7 +84,7 @@ export default function Signup({setId}) {
                     value={password}
                     onChangeText={password => setPassword(password)}
                 />
-                <Text style={styles.txtSmall}>A senha deve ter no mínimo 8 caracteres, uma letra maiscula, um número e um caracter especial</Text>
+                <Text style={styles.txtSmall}>A senha deve ter no mínimo 8 caracteres, uma letra maiúscula, um número e um caracter especial</Text>
 
                 <TextInputMask
                     style={styles.input}
@@ -105,11 +108,14 @@ export default function Signup({setId}) {
                     <Text style={styles.btnText}>Adicionar usuário</Text>
                 </TouchableOpacity>
             </View>
-        </>
+        </KeyboardAvoidingView>
     );
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1
+    },
 
     boxImage: {
         flex: 1,
