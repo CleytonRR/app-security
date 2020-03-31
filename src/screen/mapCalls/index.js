@@ -69,7 +69,7 @@ export default function MapCalls({ setId, navigation }) {
         <MapView initialRegion={currentRegion} style={styles.map}>
             {calls.map(item => (
                 <Marker key={item.id} coordinate={{ latitude: item.local.coordinates[0], longitude: item.local.coordinates[1] }}>
-                    <FontAwesome name='eye' size={32} color='red' />
+                    <FontAwesome name='map-marker' size={32} color='red' />
                     <Callout
                         onPress={() => navigation.navigate('finishCall', {
                             id: item.id,
