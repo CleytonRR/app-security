@@ -40,48 +40,31 @@ when finished, check that the backend that was installed is running on port 3333
 yarn start
 ```
 
-<img src='/src/img/img_readmi.png' height="500" width="500">
-
-## Running the tests
-
-For run the automated tests and sync database  use:
-```
-yarn test
-```
-
-## Running API
-
-for run API use:
-
-```
-yarn start
-```
-
 ## Screens
 
 ### Sign in
 
-<img src='/src/readme/logar.png' height="500" width="500">
+<img src='/src/readme/logar.png' height="500" width="277">
 
 ### Sign up
 
-<img src='/src/readme/newuser.png' height="500" width="500">
+<img src='/src/readme/newuser.png' height="500" width="277">
 
 ### Calls
 
-<img src='/src/readme/emergencias.png' height="500" width="500">
+<img src='/src/readme/emergencias.png' height="500" width="277">
 
 ### Create new Call
 
-<img src='/src/readme/newcall.png' height="500" width="500">
+<img src='/src/readme/newcall.png' height="500" width="277">
 
 ### Calls for master
 
-<img src='/src/readme/emergenciasMaster.png' height="500" width="500">
+<img src='/src/readme/emergenciasMaster.png' height="500" width="277">
 
 ### Close Call
 
-<img src='/src/readme/closecall.png' height="500" width="500">
+<img src='/src/readme/closecall.png' height="500" width="277">
 
 ## Built With
 
